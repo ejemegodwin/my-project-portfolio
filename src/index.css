@@ -1,0 +1,121 @@
+/* ── Reset & tokens ─────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0c0d10;
+  --bg-elevated: #13151a;
+  --bg-card: #181b22;
+  --bg-alt: #101218;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  --text: #e8eaef;
+  --text-muted: #9aa3b2;
+  --text-dim: #6b7380;
+
+  --accent: #7c9cff;
+  --accent-soft: rgba(124, 156, 255, 0.14);
+  --accent-glow: rgba(124, 156, 255, 0.35);
+  --success: #5dcea6;
+  --success-soft: rgba(93, 206, 166, 0.14);
+  --warn: #e6b35a;
+  --warn-soft: rgba(230, 179, 90, 0.14);
+
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, monospace;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --nav-h: 64px;
+  --max-w: 720px;
+  --max-w-wide: 960px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 600ms;
+
+  color-scheme: dark;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 12px);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(124, 156, 255, 0.08), transparent 55%),
+    radial-gradient(900px 500px at 90% 20%, rgba(93, 206, 166, 0.05), transparent 50%),
+    var(--bg);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ── Reveal (Option A) ──────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal--left {
+  transform: translateX(-24px) translateY(12px);
+}
+
+.reveal--right {
+  transform: translateX(24px) translateY(12px);
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
