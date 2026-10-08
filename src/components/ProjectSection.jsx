@@ -21,6 +21,7 @@ export default function ProjectSection({ project, index }) {
       ref={ref}
       className={`project section ${isEven ? 'project--alt' : ''}`}
     >
+
       <div
         className={`section__inner project__inner reveal reveal--${isEven ? 'right' : 'left'} ${
           inView ? 'in-view' : ''
@@ -46,8 +47,25 @@ export default function ProjectSection({ project, index }) {
         </header>
 
         <p className="project__description">{project.description}</p>
+                
+        <div className="project__overview">
+          <article className="project__overview-card">
+            <span className="project__eyebrow">My role</span>
+            <p>{project.role}</p>
+          </article>
+
+          <article className="project__overview-card">
+            <span className="project__eyebrow">Key features</span>
+            <ul>
+              {(project.features ?? []).map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
 
         <div className="project__grid">
+
           <article className="project__card">
             <h3>
               <Wrench size={16} aria-hidden /> Why I built it
@@ -65,7 +83,7 @@ export default function ProjectSection({ project, index }) {
           <article className="project__card project__card--wide">
             <h3>What was hard</h3>
             <ul>
-              {project.hardParts.map((item) => (
+              {(project.hardParts ?? []).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
