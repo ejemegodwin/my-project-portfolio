@@ -1,5 +1,6 @@
 import { site } from '../data/projects'
 import { useInView } from '../hooks/useInView'
+import godwinPhoto from '../assets/godwin.png'
 
 export default function Hero() {
   const [ref, inView] = useInView({ threshold: 0.1 })
@@ -7,6 +8,13 @@ export default function Hero() {
   return (
     <section id="top" className="hero" ref={ref}>
       <div className={`hero__inner reveal ${inView ? 'in-view' : ''}`}>
+        <div className="hero__portrait">
+          <img
+            src={godwinPhoto}
+            alt="Godwin Ejeme, Backend and Full-Stack Developer"
+            className="hero__portrait-image"
+          />
+        </div>
         <div className="hero__status">
           <span className="hero__status-dot" />
           <span>Currently building</span>
