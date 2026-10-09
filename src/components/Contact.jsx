@@ -5,7 +5,7 @@ export default function Contact() {
   const [ref, inView] = useInView({ threshold: 0.15 })
 
   return (
-    <section className="contact section" ref={ref}>
+    <section id="contact" className="contact section" ref={ref}>
       <div
         className={`section__inner reveal ${
           inView ? 'in-view' : ''

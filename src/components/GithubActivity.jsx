@@ -4,6 +4,33 @@ import { useInView } from '../hooks/useInView'
 
 const GITHUB_USERNAME = 'ejemegodwin'
 
+const FEATURED_REPOSITORIES = [
+  {
+    name: 'godand-bank',
+    title: 'Godand Bank',
+    url: 'https://github.com/andrewokala/godand-bank',
+    description:
+      'Collaborative banking backend featuring account management, transfers, ledger records, idempotency, audit logging, and concurrency protection.',
+    language: 'Python',
+  },
+  {
+    name: 'fraudguard',
+    title: 'FraudGuard',
+    url: 'https://github.com/ejemegodwin/fraudguard',
+    description:
+      'Backend application exploring transaction processing, checkout flows, and fraud-related workflows.',
+    language: 'Python',
+  },
+  {
+    name: 'focus',
+    title: 'Focus',
+    url: 'https://github.com/ejemegodwin/focus',
+    description:
+      'An education-focused application designed to make programming study more interactive and structured.',
+    language: 'Python',
+  },
+]
+
 export default function GithubActivity() {
   const [ref, inView] = useInView({ threshold: 0.15 })
 
@@ -48,7 +75,17 @@ export default function GithubActivity() {
     loadGithubData()
   }, [])
 
-  const latestRepository = repositories[0]
+  const latestRepository = repositories.reduce(
+    (latest, repo) => {
+      if (!latest) return repo
+
+      return new Date(repo.updated_at) >
+        new Date(latest.updated_at)
+        ? repo
+        : latest
+    },
+    null
+  )
 
   const activity = [
     {
@@ -149,44 +186,69 @@ export default function GithubActivity() {
           </div>
 
           <div className="github-activity__repos-grid">
-            {repositories.slice(0, 3).map((repo) => (
-              <a
-                key={repo.id}
-                href={repo.html_url}
-                target="_blank"
-                rel="noreferrer"
-                className="github-activity__repo"
-              >
-                <div className="github-activity__repo-top">
-                  <strong>{repo.name}</strong>
+            {loading ? (
+              <p>Loading repositories...</p>
+            ) : repositories.length > 0 ? (
+              FEATURED_REPOSITORIES.map((featuredRepo) => {
+                const repo = repositories.find(
+                  (item) => item.name.toLowerCase() === featuredRepo.name
+                )
 
-                  <span>↗</span>
-                </div>
+                return {
+                  id: repo?.id ?? featuredRepo.name,
+                  name: featuredRepo.title,
+                  html_url: featuredRepo.url,
+                  description: featuredRepo.description,
+                  language: repo?.language || featuredRepo.language,
+                  stargazers_count: repo?.stargazers_count ?? 0,
+                  forks_count: repo?.forks_count ?? 0,
+                  pushed_at: repo?.pushed_at || null,
+                }
+              }).map((repo) => (
+                <a
+                  key={repo.id}
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="github-activity__repo"
+                >
+                  <div className="github-activity__repo-top">
+                    <strong>{repo.name}</strong>
+                    <span>↗</span>
+                  </div>
 
-                <p>
-                  {repo.description ||
-                    'No description provided for this repository.'}
-                </p>
+                  <p>
+                    {repo.description ||
+                      'No description provided for this repository.'}
+                  </p>
 
-                <div className="github-activity__repo-meta">
-                  {repo.language && (
-                    <span>{repo.language}</span>
-                  )}
-
-                  <span>★ {repo.stargazers_count}</span>
-
-                  <span>⑂ {repo.forks_count}</span>
-
-                  <span>
-                    Updated {new Date(repo.updated_at).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </span>
-                </div>
-              </a>
-            ))}
+                  <div className="github-activity__repo-meta">
+                    {repo.language && <span>{repo.language}</span>}
+                    <span>★ {repo.stargazers_count}</span>
+                    <span>⑂ {repo.forks_count}</span>
+                    <span>
+                      {repo.pushed_at
+                        ? `Updated ${new Date(repo.pushed_at).toLocaleDateString(
+                            'en-GB',
+                            {
+                              day: 'numeric',
+                              month: 'short',
+                              year: 'numeric',
+                              timeZone: 'Africa/Lagos',
+                            }
+                          )}`
+                        : 'Collaborative project'}
+                    </span>
+                  </div>
+                </a>
+              ))
+            ) : (
+              <p>
+                {error
+                  ? 'Repositories could not be loaded. Please visit my GitHub profile.'
+                  : 'No public repositories found yet.'}
+              </p>
+            )}
           </div>
         </div>
 

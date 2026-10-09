@@ -85,11 +85,12 @@ export default function ProjectBrowser() {
 
                 <div className="project-card__footer">
                   <span>
-                    {project.visibility === 'private'
+                    {project.relationship ||
+                    (project.visibility === 'private'
                       ? 'Private project'
                       : project.visibility === 'team'
                         ? 'Team project'
-                        : 'Public project'}
+                        : 'Public project')}
                   </span>
 
                   {project.repo && (

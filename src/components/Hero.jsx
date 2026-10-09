@@ -1,7 +1,6 @@
 import { site } from '../data/projects'
 import { useInView } from '../hooks/useInView'
-import godwinPhoto from '../assets/godwin.png'
-
+import godwinPhoto from '../assets/godwin-optimized.webp'
 export default function Hero() {
   const [ref, inView] = useInView({ threshold: 0.1 })
 
@@ -28,6 +27,10 @@ export default function Hero() {
 
         <p className="hero__role">
           Backend / Full-Stack Developer
+        </p>
+
+        <p className="hero__specialty">
+          I build Python APIs and data-backed systems with FastAPI and PostgreSQL.
         </p>
 
         <p className="hero__tagline">

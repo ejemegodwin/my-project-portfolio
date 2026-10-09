@@ -44,6 +44,7 @@ export default function Nav() {
   const links = [
     { id: 'about', label: 'About' },
     ...projects.map((p) => ({ id: p.id, label: p.title })),
+    { id: 'contact', label: 'Contact' },
   ]
 
   return (

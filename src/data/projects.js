@@ -57,9 +57,10 @@ export const projects = [
       'Pytest',
     ],
 
-    repo: null,
+    repo: 'https://github.com/andrewokala/godand-bank',
     status: 'in-progress',
-    visibility: 'private',
+    visibility: 'team',
+    relationship: 'Collaborative contribution',
     featured: true,
     categories: ['Backend', 'Python', 'Database'],
   },
@@ -114,7 +115,7 @@ export const projects = [
     repo: 'https://github.com/nnamanimerit94/askduka',
     status: 'in-progress',
     visibility: 'team',
-    featured: true,
+    featured: false,
     categories: ['AI', 'Backend', 'Database'],
   },
 
@@ -152,7 +153,7 @@ export const projects = [
     repo: 'https://github.com/ejemegodwin/fraudguard',
     status: 'in-progress',
     visibility: 'public',
-    featured: false,
+    featured: true,
     categories: ['Backend', 'Python'],
   },
 
