@@ -49,7 +49,7 @@ export default function ProjectSection({ project, index }) {
         <p className="project__description">{project.description}</p>
                 
         <div className="project__overview">
-          <article className="project__overview-card">
+          <article className="project__overview-card project__overview-card--role">
             <span className="project__eyebrow">My role</span>
             <p>{project.role}</p>
           </article>

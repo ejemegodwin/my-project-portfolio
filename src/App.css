@@ -660,9 +660,9 @@
 
 .project__description {
   max-width: 680px;
-  margin-bottom: 2.25rem;
+  margin-bottom: 2rem;
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.8;
 }
 
@@ -677,6 +677,10 @@
   padding: 1.5rem;
   border: 1px solid var(--line);
   background: var(--surface);
+}
+
+.project__overview-card--role {
+  border-left: 3px solid var(--accent);
 }
 
 .project__eyebrow {

@@ -55,6 +55,7 @@ export const projects = [
       'Alembic',
       'JWT',
       'Pytest',
+      'Neon',
     ],
 
     repo: 'https://github.com/andrewokala/godand-bank',
@@ -72,18 +73,19 @@ export const projects = [
     tagline: 'AI-powered WhatsApp business assistant',
 
     description:
-      'A team project focused on building an AI-powered WhatsApp Business Assistant using retrieval-augmented generation. My work has focused on backend database ingestion and the document/chunk data pipeline.',
+      'Backend developer on a team building an AI-powered WhatsApp Business Assistant. Responsible for the database and document-ingestion foundation, including PostgreSQL schema design, document parsing and chunking, Voyage AI embeddings, persistent storage, semantic retrieval, and automated testing.',
 
     role:
       'Backend database developer responsible for the database ingestion track, migrations, document storage, and document chunking workflow within the team project.',
 
     features: [
-      'Business data storage',
-      'Document management',
-      'Document chunking',
-      'PostgreSQL database integration',
-      'Alembic database migrations',
-      'RAG-oriented ingestion pipeline',
+      'PostgreSQL database schema for businesses, documents, and document chunks',
+      'Document parsing and overlapping text chunking',
+      'Voyage AI embeddings for semantic search',
+      'Persistent storage of document chunks and vector embeddings',
+      'Semantic retrieval with business-level data isolation',
+      'Error handling, transaction rollback, and cleanup',
+      'Automated tests for ingestion, retrieval, and database operations',
     ],
 
     whyBuilt:
@@ -104,12 +106,17 @@ export const projects = [
 
     tech: [
       'Python',
-      'SQLAlchemy',
       'PostgreSQL',
+      'pgvector',
+      'SQLAlchemy',
       'Alembic',
+      'Voyage AI',
+      'pytest',
       'RAG',
-      'VoyageAI',
       'WhatsApp',
+      'FastAPI',
+      'ollama',
+      'Neon',
     ],
 
     repo: 'https://github.com/nnamanimerit94/askduka',
@@ -123,10 +130,23 @@ export const projects = [
     id: 'fraudguard',
     date: '2026-09',
     title: 'FraudGuard',
-    tagline: 'Backend services for transaction and fraud-related workflows',
-
+    tagline: 'Explainable fraud detection and risk analysis for e-commerce transactions',
     description:
-      'A backend application exploring transaction storage, checkout flows, and fraud-related application logic using FastAPI.',
+      'An e-commerce fraud detection system that evaluates transaction risk using explainable scoring rules and machine-learning-based anomaly detection. Built with Python, FastAPI, and Go, it combines transaction history, risk analysis, checkout workflows, and payment verification to explore how fraud prevention can work across interconnected backend services.',
+
+    role:
+      'Backend developer working on fraud-risk analysis, transaction handling, API development, and e-commerce workflows. Focused on understanding how risk-scoring rules, historical transaction data, and anomaly detection can support fraud investigation.',
+    
+    features: [
+      'Rule-based fraud scoring with explainable risk decisions',
+      'SQLite transaction persistence and duplicate-request protection',
+      'Transaction history, filtering, pagination, and statistics',
+      'Historical analytics with pandas',
+      'Isolation Forest anomaly detection',
+      'Go-based checkout and order-management workflows',
+      'Flutterwave payment verification and webhook handling',
+      'Fraud-review dashboard and automated test workflows',
+    ],
 
     whyBuilt:
       'To gain more practical experience designing APIs around financial-style transactions and understanding how backend services behave when requests succeed, fail, or need to be investigated.',
@@ -146,8 +166,13 @@ export const projects = [
     tech: [
       'Python',
       'FastAPI',
-      'API',
-      'Transactions',
+      'Go',
+      'SQLite',
+      'pandas',
+      'scikit-learn',
+      'Flutterwave',
+      'Docker',
+      'Pytest',
     ],
 
     repo: 'https://github.com/ejemegodwin/fraudguard',
