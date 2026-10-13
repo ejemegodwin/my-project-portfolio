@@ -67,6 +67,69 @@ export const projects = [
   },
 
   {
+    id: 'tracker',
+    date: '2026-10',
+    title: 'CashFlow Tracker',
+    tagline:
+      'A cash flow dashboard for tracking sales, expenses, and customer debts',
+
+    description:
+      'CashFlow Tracker is a React web application for recording business sales and expenses, tracking customer debts, and reviewing key financial totals in one dashboard. It uses Supabase PostgreSQL to store records and provides separate views for sales, expenses, and debt management. Users can record transactions, categorize expenses, mark debts as paid, and review total sales, expenses, estimated profit, and outstanding debt.',
+
+    role:
+      'Full-stack developer responsible for building the React interface, connecting the application to Supabase, and implementing sales, expense, debt-tracking, and dashboard functionality.',
+
+    features: [
+      'Dashboard summarizing total sales, expenses, estimated profit, and outstanding debts',
+      'Sales records with item or service, amount, optional customer name, and date',
+      'Expense tracking with amount, category, description, and date',
+      'Customer debt records with amount, reason, and payment status',
+      'Ability to mark customer debts as paid',
+      'Separate views for dashboard, sales, expenses, and debts',
+      'Supabase PostgreSQL integration for storing financial records',
+      'Light and dark theme support',
+      'Responsive interface for different screen sizes',
+    ],
+
+    whyBuilt:
+      'I built CashFlow Tracker to explore how a simple web application can help small business owners keep track of their daily financial activities. The project gave me practical experience connecting a React interface to a PostgreSQL database through Supabase while organizing sales, expenses, and customer debts into one place.',
+
+    hardParts: [
+      'Connecting the React application to Supabase and organizing database operations',
+      'Designing separate workflows for sales, expenses, and customer debt records',
+      'Calculating total sales, expenses, profit, and outstanding debts from stored records',
+      'Keeping the displayed lists and financial summaries consistent after changes',
+      'Handling debt payment-status updates and refreshing the relevant interface',
+      'Building a responsive interface with light and dark theme support',
+    ],
+
+    whatClicked:
+      'I learned that a financial dashboard is only useful when its numbers reflect the underlying records accurately. Connecting the interface to a database also taught me to think beyond displaying forms: I need to consider how data is stored, retrieved, updated, and reflected in the user interface. Separating sales, expenses, and debts into distinct workflows helped me understand how individual features contribute to one complete application.',
+
+    outcome:
+      'CashFlow Tracker demonstrates my ability to build a React application that connects to a PostgreSQL database through Supabase. It brings together financial record management, dashboard summaries, debt-status updates, and responsive interface design in one project. It also strengthened my understanding of how frontend components, database operations, and business calculations work together in a practical application.',
+
+    doDifferently:
+      'I would add automated tests for financial calculations, database operations, and debt-status changes earlier in development. I would also implement authentication and stricter database access policies before using the application with real customer financial records. Finally, I would improve error handling and ensure dashboard summaries refresh reliably whenever records change.',
+
+    tech: [
+      'React',
+      'JavaScript',
+      'Vite',
+      'Supabase',
+      'PostgreSQL',
+      'CSS',
+      'React Hooks',
+    ],
+
+    repo: 'https://github.com/ejemegodwin/tracker',
+    status: 'in-progress',
+    visibility: 'public',
+    featured: false,
+    categories: ['Full-Stack', 'React', 'Finance'],
+  },
+
+  {
     id: 'askduka',
     date: '2026-09',
     title: 'AskDuka',
@@ -186,28 +249,39 @@ export const projects = [
     id: 'focus',
     date: '2026-09',
     title: 'Focus',
-    tagline: 'A learning platform built around focused study',
+    tagline: 'An interactive programming learning platform with step-by-step code visualization',
 
     description:
-      'An education-focused application designed around helping learners study programming concepts and stay focused while learning.',
+      'Focus is an interactive programming education platform that helps learners understand how code executes step by step. It combines a code visualizer for Python and Go, structured learning paths, interactive exercises, account authentication, learner progress tracking, and an administrative dashboard. The project explores how visual feedback and guided practice can make programming concepts easier to understand.',
 
     whyBuilt:
-      'The project grew from the idea of making learning more interactive and structured rather than simply presenting users with static lessons.',
+      'I built Focus to explore a more visual and interactive way of learning programming. Instead of only reading explanations or looking at finished code, learners can step through execution, inspect variables and the call stack, follow changes in program state, and practise through guided lessons and exercises. The goal is to make programming concepts easier to understand by showing learners what their code is doing.',
 
     hardParts: [
-      'Turning a broad learning idea into features that can actually be built',
-      'Designing an experience that keeps learning central instead of adding unnecessary features',
-      'Connecting the product idea with a realistic technical architecture',
+      'Capturing Python execution events with sys.settrace and turning them into navigable snapshots of program state',
+      'Tracking variable values, data types, function calls, program output, and runtime errors across execution steps',
+      'Running submitted code through a subprocess with execution timeouts and resource limits while recognizing that stronger isolation is still needed for production',
+      'Building authentication with password hashing, session management, and role-based access for learners and administrators',
+      'Testing execution tracing, error handling, execution limits, and authentication behaviour with automated tests',
     ],
 
     whatClicked:
-      'Building a product taught me that technical decisions make more sense when they are connected to a real user problem rather than chosen simply because a technology is interesting.',
+      'Building Focus helped me understand how backend execution logic can power an interactive learning experience. I learned to think about program tracing as a sequence of state changes, how to capture execution details and runtime errors, and why timeouts, resource limits, and automated tests matter when running code. I also learned that building a useful learning product requires more than making features work: it requires clear feedback, structured practice, and honest attention to security limitations.',
 
     doDifferently:
-      'I would define the smallest useful learning experience first and expand the product only after that core workflow is solid.',
+      'I would establish a stronger execution-isolation architecture earlier, separating code execution from the main application and treating security boundaries as a core design requirement. I would also plan for persistent, server-side learning progress so users can continue across devices, then expand the platform based on feedback from actual learners.',
 
     tech: [
       'Python',
+      'Go',
+      'React',
+      'JavaScript',
+      'Vite',
+      'SQLite',
+      'REST API',
+      'pytest',
+      'HTML',
+      'CSS',
       'Web Development',
       'Education',
     ],
@@ -216,35 +290,42 @@ export const projects = [
     status: 'in-progress',
     visibility: 'public',
     featured: true,
-    categories: ['Backend', 'Python', 'Product'],
+    categories: ['Full-Stack', 'Backend', 'Python', 'Education'],
   },
 
   {
     id: 'ascii-art-cli',
     date: '2025-03',
     title: 'ASCII Art CLI',
-    tagline: 'Banner-style text rendering in the terminal',
+    tagline: 'A Go CLI for rendering text with selectable ASCII banner fonts',
 
     description:
-      'A command-line tool that renders text as large ASCII art using banner-style fonts. One of my early projects for understanding Go fundamentals, file I/O, string manipulation, and structured problem solving.',
+      'A Go command-line application that converts input text into large ASCII-art banners using selectable font files, including standard, shadow, and thinkertoy styles. It separates input validation, banner parsing, and rendering into focused functions, with automated tests covering normal input, unsupported characters, banner-file errors, and multi-line output.',
 
     whyBuilt:
-      'The goal was to understand file I/O, string manipulation, and how to structure a small CLI tool from scratch.',
+      'TI built this project to strengthen my understanding of Go by creating a practical command-line application from scratch. It gave me hands-on experience with file I/O, string manipulation, input validation, and breaking a larger problem into smaller, testable functions.',
 
     hardParts: [
-      'Aligning characters correctly across multi-line font templates',
-      'Handling missing characters and unexpected input',
-      'Keeping the rendering logic clean when fonts have different widths',
+      'Parsing banner font files into a consistent map of characters and their eight-line representations',
+      'Rendering multiple characters across aligned output lines while preserving the correct spacing',
+      'Validating printable ASCII input and handling unsupported characters or invalid banner files',
+      'Supporting multi-line input without breaking the expected banner layout',
+      'Writing automated tests for rendering, input validation, font loading, and edge cases',
     ],
 
     whatClicked:
-      'Thinking of each character as a fixed-height slice of the font file made the rendering algorithm much easier to understand.',
+      'I learned that rendering ASCII art becomes much easier when each character is represented by a fixed-height collection of lines. By mapping characters to their banner representations and building each output line systematically, I could separate the rendering logic from input handling and font loading. This helped me understand how data structures and small, focused functions make text-processing problems easier to solve.',
 
     doDifferently:
-      'I would separate font parsing from rendering earlier and create more tests around edge cases.',
+      'I would define clearer interfaces between input validation, banner parsing, and rendering from the beginning. I would also expand edge-case tests for malformed font files, missing glyphs, and unusual multi-line input, and document the command-line usage more clearly so other developers can understand and run the project easily.',
 
-    tech: ['Go', 'CLI', 'File I/O'],
-
+    tech: [
+      'Go',
+      'CLI',
+      'File I/O',
+      'Data Structures',
+      'Unit Testing',
+    ],
     repo: 'https://github.com/ejemegodwin/ascii-art',
     status: 'completed',
     visibility: 'public',
