@@ -303,7 +303,7 @@ export const projects = [
       'A Go command-line application that converts input text into large ASCII-art banners using selectable font files, including standard, shadow, and thinkertoy styles. It separates input validation, banner parsing, and rendering into focused functions, with automated tests covering normal input, unsupported characters, banner-file errors, and multi-line output.',
 
     whyBuilt:
-      'TI built this project to strengthen my understanding of Go by creating a practical command-line application from scratch. It gave me hands-on experience with file I/O, string manipulation, input validation, and breaking a larger problem into smaller, testable functions.',
+      'I built this project to strengthen my understanding of Go by creating a practical command-line application from scratch. It gave me hands-on experience with file I/O, string manipulation, input validation, and breaking a larger problem into smaller, testable functions.',
 
     hardParts: [
       'Parsing banner font files into a consistent map of characters and their eight-line representations',

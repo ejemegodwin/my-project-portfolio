@@ -251,7 +251,7 @@
 }
 
 .hero__inner {
-  max-width: var(--max-w);
+  max-width: 780px;
   width: 100%;
   position: relative;
   z-index: 1;
@@ -733,21 +733,36 @@
   margin-bottom: 1.75rem;
 }
 
+
 .project__card {
-  background: var(--surface);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.6rem;
+  overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 0;
-  padding: 1.5rem;
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      transparent 55%
+    ),
+    var(--surface);
   transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    transform 180ms ease;
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease;
 }
 
 .project__card:hover {
-  background: var(--bg);
-  border-color: var(--text);
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  border-color: var(--accent, #38bdf8);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.16),
+    0 0 24px rgba(56, 189, 248, 0.08);
 }
 
 .project__card--wide {
@@ -1816,8 +1831,8 @@
   margin-bottom: 28px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--accent, #38bdf8);
-  box-shadow: 0 0 30px rgba(56, 189, 248, 0.18);
+  border: 2px solid var(--border-strong);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
   flex-shrink: 0;
 }
 
