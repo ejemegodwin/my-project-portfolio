@@ -7,6 +7,7 @@ const GITHUB_USERNAME = 'ejemegodwin'
 const FEATURED_REPOSITORIES = [
   {
     name: 'godand-bank',
+    owner: 'andrewokala',
     title: 'Godand Bank',
     url: 'https://github.com/andrewokala/godand-bank',
     description:
@@ -15,6 +16,7 @@ const FEATURED_REPOSITORIES = [
   },
   {
     name: 'fraudguard',
+    owner: 'ejemegodwin',
     title: 'FraudGuard',
     url: 'https://github.com/ejemegodwin/fraudguard',
     description:
@@ -23,6 +25,7 @@ const FEATURED_REPOSITORIES = [
   },
   {
     name: 'focus',
+    owner: 'ejemegodwin',
     title: 'Focus',
     url: 'https://github.com/ejemegodwin/focus',
     description:
@@ -31,11 +34,24 @@ const FEATURED_REPOSITORIES = [
   },
 ]
 
+async function fetchRepository(owner, name) {
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${name}`
+  )
+
+  if (!response.ok) {
+    throw new Error(`Could not fetch ${owner}/${name}`)
+  }
+
+  return response.json()
+}
+
 export default function GithubActivity() {
   const [ref, inView] = useInView({ threshold: 0.15 })
 
   const [profile, setProfile] = useState(null)
   const [repositories, setRepositories] = useState([])
+  const [featuredRepositories, setFeaturedRepositories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
@@ -62,8 +78,47 @@ export default function GithubActivity() {
         const profileData = await profileResponse.json()
         const repositoriesData = await repositoriesResponse.json()
 
+        const featuredRepositories = await Promise.all(
+          FEATURED_REPOSITORIES.map(async (featuredRepo) => {
+            try {
+              const repo = await fetchRepository(
+                featuredRepo.owner,
+                featuredRepo.name
+              )
+
+              return {
+                ...featuredRepo,
+                id: repo.id,
+                name: featuredRepo.title,
+                html_url: repo.html_url,
+                description: featuredRepo.description || repo.description,
+                language: repo.language || featuredRepo.language,
+                stargazers_count: repo.stargazers_count,
+                forks_count: repo.forks_count,
+                pushed_at: repo.pushed_at,
+              }
+            } catch (err) {
+              console.error(
+                `Failed to load ${featuredRepo.owner}/${featuredRepo.name}:`,
+                err
+              )
+
+              return {
+                ...featuredRepo,
+                id: featuredRepo.name,
+                name: featuredRepo.title,
+                html_url: featuredRepo.url,
+                stargazers_count: null,
+                forks_count: null,
+                pushed_at: null,
+              }
+            }
+          })
+        )
+
         setProfile(profileData)
         setRepositories(repositoriesData)
+        setFeaturedRepositories(featuredRepositories)
       } catch (err) {
         console.error('Failed to load GitHub data:', err)
         setError(true)
@@ -188,23 +243,8 @@ export default function GithubActivity() {
           <div className="github-activity__repos-grid">
             {loading ? (
               <p>Loading repositories...</p>
-            ) : repositories.length > 0 ? (
-              FEATURED_REPOSITORIES.map((featuredRepo) => {
-                const repo = repositories.find(
-                  (item) => item.name.toLowerCase() === featuredRepo.name
-                )
-
-                return {
-                  id: repo?.id ?? featuredRepo.name,
-                  name: featuredRepo.title,
-                  html_url: featuredRepo.url,
-                  description: featuredRepo.description,
-                  language: repo?.language || featuredRepo.language,
-                  stargazers_count: repo?.stargazers_count ?? 0,
-                  forks_count: repo?.forks_count ?? 0,
-                  pushed_at: repo?.pushed_at || null,
-                }
-              }).map((repo) => (
+            ) : featuredRepositories.length > 0 ? (
+              featuredRepositories.map((repo) => (
                 <a
                   key={repo.id}
                   href={repo.html_url}
@@ -224,8 +264,8 @@ export default function GithubActivity() {
 
                   <div className="github-activity__repo-meta">
                     {repo.language && <span>{repo.language}</span>}
-                    <span>★ {repo.stargazers_count}</span>
-                    <span>⑂ {repo.forks_count}</span>
+                    <span>★ {repo.stargazers_count ?? '—'}</span>
+                    <span>⑂ {repo.forks_count ?? '—'}</span>
                     <span>
                       {repo.pushed_at
                         ? `Updated ${new Date(repo.pushed_at).toLocaleDateString(
