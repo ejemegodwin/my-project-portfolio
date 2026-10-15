@@ -111,6 +111,18 @@ button {
   transform: translate(0, 0);
 }
 
+/* Above-the-fold entrance: pure CSS so it runs before JS hydrates */
+.reveal-on-load {
+  animation: reveal-on-load var(--duration) var(--ease-out) both;
+}
+
+@keyframes reveal-on-load {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -120,5 +132,9 @@ button {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .reveal-on-load {
+    animation: none;
   }
 }
