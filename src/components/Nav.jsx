@@ -1,22 +1,32 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { site, projects } from '../data/projects'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [activeId, setActiveId] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [progress, setProgress] = useState(0)
+  const progressRef = useRef(null)
 
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0
+    // Update the progress bar directly instead of re-rendering on every scroll event
+    const update = () => {
+      frame = 0
       setScrolled(window.scrollY > 40)
       const max = document.documentElement.scrollHeight - window.innerHeight
-      setProgress(max > 0 ? (window.scrollY / max) * 100 : 0)
+      const ratio = max > 0 ? window.scrollY / max : 0
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${ratio})`
+      }
     }
-    onScroll()
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
     return () => {
+      cancelAnimationFrame(frame)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
@@ -89,7 +99,7 @@ export default function Nav() {
       </div>
 
       <div className="nav__progress" aria-hidden="true">
-        <div className="nav__progress-bar" style={{ width: `${progress}%` }} />
+        <div className="nav__progress-bar" ref={progressRef} />
       </div>
     </header>
   )
