@@ -11,6 +11,13 @@ function formatDate(ym) {
   return `${months[Number(m) - 1] ?? m} ${y}`
 }
 
+const statusLabels = {
+  completed: 'Done',
+  'in-progress': 'In progress',
+  paused: 'Paused',
+  prototype: 'Prototype',
+}
+
 export default function ProjectSection({ project, index }) {
   const [ref, inView] = useInView({ threshold: 0.15 })
   const isEven = index % 2 === 1
@@ -31,7 +38,7 @@ export default function ProjectSection({ project, index }) {
           <div className="project__meta">
             <time dateTime={project.date}>{formatDate(project.date)}</time>
             <span className={`project__status project__status--${project.status}`}>
-              {project.status === 'completed' ? 'Done' : 'In progress'}
+              {statusLabels[project.status] ?? 'In progress'}
             </span>
             <span className="project__index">
               {String(index + 1).padStart(2, '0')}

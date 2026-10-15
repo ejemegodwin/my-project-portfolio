@@ -35,6 +35,7 @@ export default function Nav() {
   useEffect(() => {
     const sections = [
       document.getElementById('about'),
+      document.getElementById('projects'),
       ...projects.map((p) => document.getElementById(p.id)),
     ].filter(Boolean)
 
@@ -53,6 +54,7 @@ export default function Nav() {
 
   const links = [
     { id: 'about', label: 'About' },
+    { id: 'projects', label: 'Projects' },
     ...projects.map((p) => ({ id: p.id, label: p.title })),
     { id: 'contact', label: 'Contact' },
   ]

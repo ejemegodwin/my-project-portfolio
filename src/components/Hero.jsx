@@ -1,26 +1,20 @@
 import { site } from '../data/projects'
-import godwinPhoto from '../assets/godwin-portrait.webp'
+import { useInView } from '../hooks/useInView'
+import godwinPhoto from '../assets/godwin.png'
+
+// const godwinPhoto = '/.netlify/images?url=/godwin.webp&w=300&h=300&fit=cover'
 
 export default function Hero() {
-  return (
-    <section id="top" className="hero">
-      <div className="hero__inner reveal-on-load">
-=======
+  const [ref, inView] = useInView({ threshold: 0.1 })
 
-// Resized on demand by Netlify Image CDN (300px covers 2x displays)
-const godwinPhoto = '/.netlify/images?url=/godwin.webp&w=300&h=300&fit=cover'
-
-export default function Hero() {
   return (
-    <section id="top" className="hero">
-      <div className="hero__inner">
+    <section id="top" className="hero" ref={ref}>
+      <div className={`hero__inner reveal ${inView ? 'in-view' : ''}`}>
         <div className="hero__portrait">
           <img
             src={godwinPhoto}
-            alt="Ejeme Godwin, Backend and Full-Stack Developer"
-            className="hero__portrait-image"
-            width="400"
-            height="400"
+            alt="Godwin Ejeme, Backend and Full-Stack Developer"
+            className="user-avatar"
             width="150"
             height="150"
             fetchPriority="high"

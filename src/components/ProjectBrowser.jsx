@@ -4,6 +4,13 @@ import { useInView } from '../hooks/useInView'
 
 const filters = ['All', 'Backend', 'Python', 'Database', 'AI', 'Go', 'CLI', 'Product']
 
+const statusLabels = {
+  completed: 'Completed',
+  'in-progress': 'In progress',
+  paused: 'Paused',
+  prototype: 'Prototype',
+}
+
 export default function ProjectBrowser() {
   const [activeFilter, setActiveFilter] = useState('All')
   const [ref, inView] = useInView({ threshold: 0.1 })
@@ -65,9 +72,7 @@ export default function ProjectBrowser() {
                   <span
                     className={`project-card__status project-card__status--${project.status}`}
                   >
-                    {project.status === 'in-progress'
-                      ? 'In progress'
-                      : 'Completed'}
+                    {statusLabels[project.status] ?? 'In progress'}
                   </span>
                 </div>
 
@@ -140,9 +145,7 @@ export default function ProjectBrowser() {
                 <span
                   className={`project-card__status project-card__status--${project.status}`}
                 >
-                  {project.status === 'in-progress'
-                    ? 'In progress'
-                    : 'Completed'}
+                  {statusLabels[project.status] ?? 'In progress'}
                 </span>
               </div>
 

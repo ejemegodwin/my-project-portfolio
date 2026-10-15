@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView'
+import { projects } from '../data/projects'
 
 const stats = [
   {
@@ -15,7 +16,8 @@ const stats = [
   },
   {
     label: 'Projects',
-    value: '4+',
+    // Always matches the number of projects listed on the page
+    value: String(projects.length),
   },
 ]
 
