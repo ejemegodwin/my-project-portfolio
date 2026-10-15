@@ -87,23 +87,26 @@ button {
 
 /* ── Reveal (Option A) ──────────────────────────────────────── */
 .reveal {
-  opacity: 0;
-  transform: translateY(28px);
   transition:
     opacity var(--duration) var(--ease-out),
     transform var(--duration) var(--ease-out);
-  will-change: opacity, transform;
 }
 
-.reveal--left {
+/* Only hide content once JS is running, so prerendered HTML is never invisible */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.js .reveal--left {
   transform: translateX(-24px) translateY(12px);
 }
 
-.reveal--right {
+.js .reveal--right {
   transform: translateX(24px) translateY(12px);
 }
 
-.reveal.in-view {
+.js .reveal.in-view {
   opacity: 1;
   transform: translate(0, 0);
 }
@@ -113,7 +116,7 @@ button {
     scroll-behavior: auto;
   }
 
-  .reveal {
+  .js .reveal {
     opacity: 1;
     transform: none;
     transition: none;
