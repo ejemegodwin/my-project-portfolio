@@ -1,17 +1,18 @@
 import { site } from '../data/projects'
-import { useInView } from '../hooks/useInView'
-import godwinPhoto from '../assets/godwin-optimized.webp'
-export default function Hero() {
-  const [ref, inView] = useInView({ threshold: 0.1 })
+import godwinPhoto from '../assets/godwin-portrait.webp'
 
+export default function Hero() {
   return (
-    <section id="top" className="hero" ref={ref}>
-      <div className={`hero__inner reveal ${inView ? 'in-view' : ''}`}>
+    <section id="top" className="hero">
+      <div className="hero__inner reveal-on-load">
         <div className="hero__portrait">
           <img
             src={godwinPhoto}
-            alt="Godwin Ejeme, Backend and Full-Stack Developer"
+            alt="Ejeme Godwin, Backend and Full-Stack Developer"
             className="hero__portrait-image"
+            width="400"
+            height="400"
+            fetchPriority="high"
           />
         </div>
         <div className="hero__status">

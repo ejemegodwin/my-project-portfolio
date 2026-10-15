@@ -341,6 +341,7 @@ export const site = {
     'I build systems, break them, understand why they broke, and build them better.',
 
   about: [
+    "I'm Ejeme Godwin, a backend and full-stack developer. I build APIs and data-backed systems with Python, FastAPI, and PostgreSQL, and I also work with Go and React. My projects include a transactional banking backend, an AI-powered WhatsApp business assistant, and a cash flow tracker for small businesses. I'm open to backend engineering, full-stack, and data-focused roles.",
     'This portfolio is a living record of my development journey. I care about understanding how systems work, documenting the difficult parts, and learning from what breaks.',
     'My current focus is backend engineering with Python, databases, APIs, and increasingly data analysis.',
   ],

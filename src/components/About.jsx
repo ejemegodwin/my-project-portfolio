@@ -8,7 +8,7 @@ export default function About() {
     <section id="about" className="about section" ref={ref}>
       <div className={`section__inner reveal ${inView ? 'in-view' : ''}`}>
         <p className="section__label">About</p>
-        <h2 className="section__title">Why this site exists</h2>
+        <h2 className="section__title">About Ejeme Godwin</h2>
         <div className="about__body">
           {site.about.map((para) => (
             <p key={para.slice(0, 24)}>{para}</p>
