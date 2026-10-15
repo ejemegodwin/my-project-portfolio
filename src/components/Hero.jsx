@@ -5,6 +5,15 @@ export default function Hero() {
   return (
     <section id="top" className="hero">
       <div className="hero__inner reveal-on-load">
+=======
+
+// Resized on demand by Netlify Image CDN (300px covers 2x displays)
+const godwinPhoto = '/.netlify/images?url=/godwin.webp&w=300&h=300&fit=cover'
+
+export default function Hero() {
+  return (
+    <section id="top" className="hero">
+      <div className="hero__inner">
         <div className="hero__portrait">
           <img
             src={godwinPhoto}
@@ -12,6 +21,8 @@ export default function Hero() {
             className="hero__portrait-image"
             width="400"
             height="400"
+            width="150"
+            height="150"
             fetchPriority="high"
           />
         </div>

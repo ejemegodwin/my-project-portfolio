@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { site } from '../data/projects'
 import { useInView } from '../hooks/useInView'
 
-const GITHUB_USERNAME = 'ejemegodwin'
-
 const FEATURED_REPOSITORIES = [
   {
     name: 'godand-bank',
@@ -34,138 +32,70 @@ const FEATURED_REPOSITORIES = [
   },
 ]
 
-async function fetchRepository(owner, name) {
-  const response = await fetch(
-    `https://api.github.com/repos/${owner}/${name}`
-  )
-
-  if (!response.ok) {
-    throw new Error(`Could not fetch ${owner}/${name}`)
-  }
-
-  return response.json()
-}
-
 export default function GithubActivity() {
   const [ref, inView] = useInView({ threshold: 0.15 })
 
-  const [profile, setProfile] = useState(null)
-  const [repositories, setRepositories] = useState([])
-  const [featuredRepositories, setFeaturedRepositories] = useState([])
+  const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    async function loadGithubData() {
-      try {
-        setLoading(true)
-        setError(false)
+    // Wait until the section is on screen before fetching
+    if (!inView) return
 
-        const [profileResponse, repositoriesResponse] =
-          await Promise.all([
-            fetch(
-              `https://api.github.com/users/${GITHUB_USERNAME}`
-            ),
-            fetch(
-              `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`
-            ),
-          ])
-
-        if (!profileResponse.ok || !repositoriesResponse.ok) {
-          throw new Error('GitHub request failed')
-        }
-
-        const profileData = await profileResponse.json()
-        const repositoriesData = await repositoriesResponse.json()
-
-        const featuredRepositories = await Promise.all(
-          FEATURED_REPOSITORIES.map(async (featuredRepo) => {
-            try {
-              const repo = await fetchRepository(
-                featuredRepo.owner,
-                featuredRepo.name
-              )
-
-              return {
-                ...featuredRepo,
-                id: repo.id,
-                name: featuredRepo.title,
-                html_url: repo.html_url,
-                description: featuredRepo.description || repo.description,
-                language: repo.language || featuredRepo.language,
-                stargazers_count: repo.stargazers_count,
-                forks_count: repo.forks_count,
-                pushed_at: repo.pushed_at,
-              }
-            } catch (err) {
-              console.error(
-                `Failed to load ${featuredRepo.owner}/${featuredRepo.name}:`,
-                err
-              )
-
-              return {
-                ...featuredRepo,
-                id: featuredRepo.name,
-                name: featuredRepo.title,
-                html_url: featuredRepo.url,
-                stargazers_count: null,
-                forks_count: null,
-                pushed_at: null,
-              }
-            }
-          })
-        )
-
-        setProfile(profileData)
-        setRepositories(repositoriesData)
-        setFeaturedRepositories(featuredRepositories)
-      } catch (err) {
+    fetch('/api/github')
+      .then((response) => {
+        if (!response.ok) throw new Error('GitHub request failed')
+        return response.json()
+      })
+      .then(setData)
+      .catch((err) => {
         console.error('Failed to load GitHub data:', err)
         setError(true)
-      } finally {
-        setLoading(false)
-      }
+      })
+      .finally(() => setLoading(false))
+  }, [inView])
+
+  // Featured cards render immediately from local data; live stats fill in when loaded
+  const featuredRepositories = FEATURED_REPOSITORIES.map((featuredRepo) => {
+    const repo = data?.repositories?.[`${featuredRepo.owner}/${featuredRepo.name}`]
+
+    return {
+      ...featuredRepo,
+      id: featuredRepo.name,
+      name: featuredRepo.title,
+      html_url: repo?.html_url ?? featuredRepo.url,
+      language: repo?.language || featuredRepo.language,
+      stargazers_count: repo?.stargazers_count ?? null,
+      forks_count: repo?.forks_count ?? null,
+      pushed_at: repo?.pushed_at ?? null,
     }
-
-    loadGithubData()
-  }, [])
-
-  const latestRepository = repositories.reduce(
-    (latest, repo) => {
-      if (!latest) return repo
-
-      return new Date(repo.updated_at) >
-        new Date(latest.updated_at)
-        ? repo
-        : latest
-    },
-    null
-  )
+  })
 
   const activity = [
     {
       label: 'Public repositories',
       value: loading
         ? 'Loading...'
-        : profile?.public_repos ?? '—',
+        : data?.public_repos ?? '—',
     },
     {
       label: 'Followers',
       value: loading
         ? 'Loading...'
-        : profile?.followers ?? '—',
+        : data?.followers ?? '—',
     },
     {
       label: 'Following',
       value: loading
         ? 'Loading...'
-        : profile?.following ?? '—',
+        : data?.following ?? '—',
     },
     {
       label: 'Latest update',
       value: loading
         ? 'Loading...'
-        : latestRepository?.name ?? '—',
+        : data?.latest_repository ?? '—',
     },
   ]
 
@@ -241,54 +171,46 @@ export default function GithubActivity() {
           </div>
 
           <div className="github-activity__repos-grid">
-            {loading ? (
-              <p>Loading repositories...</p>
-            ) : featuredRepositories.length > 0 ? (
-              featuredRepositories.map((repo) => (
-                <a
-                  key={repo.id}
-                  href={repo.html_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="github-activity__repo"
-                >
-                  <div className="github-activity__repo-top">
-                    <strong>{repo.name}</strong>
-                    <span>↗</span>
-                  </div>
+            {featuredRepositories.map((repo) => (
+              <a
+                key={repo.id}
+                href={repo.html_url}
+                target="_blank"
+                rel="noreferrer"
+                className="github-activity__repo"
+              >
+                <div className="github-activity__repo-top">
+                  <strong>{repo.name}</strong>
+                  <span>↗</span>
+                </div>
 
-                  <p>
-                    {repo.description ||
-                      'No description provided for this repository.'}
-                  </p>
+                <p>
+                  {repo.description ||
+                    'No description provided for this repository.'}
+                </p>
 
-                  <div className="github-activity__repo-meta">
-                    {repo.language && <span>{repo.language}</span>}
-                    <span>★ {repo.stargazers_count ?? '—'}</span>
-                    <span>⑂ {repo.forks_count ?? '—'}</span>
-                    <span>
-                      {repo.pushed_at
-                        ? `Updated ${new Date(repo.pushed_at).toLocaleDateString(
-                            'en-GB',
-                            {
-                              day: 'numeric',
-                              month: 'short',
-                              year: 'numeric',
-                              timeZone: 'Africa/Lagos',
-                            }
-                          )}`
-                        : 'Collaborative project'}
-                    </span>
-                  </div>
-                </a>
-              ))
-            ) : (
-              <p>
-                {error
-                  ? 'Repositories could not be loaded. Please visit my GitHub profile.'
-                  : 'No public repositories found yet.'}
-              </p>
-            )}
+                <div className="github-activity__repo-meta">
+                  {repo.language && <span>{repo.language}</span>}
+                  <span>★ {repo.stargazers_count ?? '—'}</span>
+                  <span>⑂ {repo.forks_count ?? '—'}</span>
+                  <span>
+                    {loading
+                      ? 'Loading…'
+                      : repo.pushed_at
+                      ? `Updated ${new Date(repo.pushed_at).toLocaleDateString(
+                          'en-GB',
+                          {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                            timeZone: 'Africa/Lagos',
+                          }
+                        )}`
+                      : 'Collaborative project'}
+                  </span>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
 
