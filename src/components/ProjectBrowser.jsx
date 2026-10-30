@@ -98,15 +98,18 @@ export default function ProjectBrowser() {
                         : 'Public project')}
                   </span>
 
-                  {project.repo && (
-                    <a
-                      href={project.repo}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View repository →
-                    </a>
-                  )}
+                  <div className="project-card__links">
+                    <a href={`#${project.id}`}>Read case study ↓</a>
+                    {project.repo && (
+                      <a
+                        href={project.repo}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        View repository ↗
+                      </a>
+                    )}
+                  </div>
                 </div>
               </article>
             ))}
@@ -172,15 +175,18 @@ export default function ProjectBrowser() {
                       : 'Public project'}
                 </span>
 
-                {project.repo && (
-                  <a
-                    href={project.repo}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    GitHub →
-                  </a>
-                )}
+                <div className="project-card__links">
+                  <a href={`#${project.id}`}>Read case study ↓</a>
+                  {project.repo && (
+                    <a
+                      href={project.repo}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      GitHub ↗
+                    </a>
+                  )}
+                </div>
               </div>
             </article>
           ))}

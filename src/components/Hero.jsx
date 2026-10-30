@@ -1,8 +1,6 @@
 import { site } from '../data/projects'
 import { useInView } from '../hooks/useInView'
-import godwinPhoto from '../assets/godwin.png'
-
-// const godwinPhoto = '/.netlify/images?url=/godwin.webp&w=300&h=300&fit=cover'
+import godwinPhoto from '../assets/godwin-portrait.webp'
 
 export default function Hero() {
   const [ref, inView] = useInView({ threshold: 0.1 })
@@ -14,7 +12,7 @@ export default function Hero() {
           <img
             src={godwinPhoto}
             alt="Godwin Ejeme, Backend and Full-Stack Developer"
-            className="user-avatar"
+            className="hero__portrait-image"
             width="150"
             height="150"
             fetchPriority="high"
