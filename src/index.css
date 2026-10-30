@@ -1,147 +1,16 @@
-/* ── Reset & tokens ─────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap');
 
-:root {
-  --bg: #0c0d10;
-  --bg-elevated: #13151a;
-  --bg-card: #181b22;
-  --bg-alt: #101218;
-  --border: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.12);
-
-  --text: #e8eaef;
-  --text-muted: #9aa3b2;
-  --text-dim: #6b7380;
-
-  --accent: #7c9cff;
-  --accent-soft: rgba(124, 156, 255, 0.14);
-  --accent-glow: rgba(124, 156, 255, 0.35);
-  --success: #5dcea6;
-  --success-soft: rgba(93, 206, 166, 0.14);
-  --warn: #e6b35a;
-  --warn-soft: rgba(230, 179, 90, 0.14);
-
-  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', Menlo, monospace;
-
-  --radius: 12px;
-  --radius-sm: 8px;
-  --nav-h: 64px;
-  --max-w: 720px;
-  --max-w-wide: 960px;
-
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration: 600ms;
-
-  color-scheme: dark;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 12px);
-}
-
-body {
-  min-height: 100vh;
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(124, 156, 255, 0.08), transparent 55%),
-    radial-gradient(900px 500px at 90% 20%, rgba(93, 206, 166, 0.05), transparent 50%),
-    var(--bg);
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-ul {
-  list-style: none;
-}
-
-button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* ── Reveal (Option A) ──────────────────────────────────────── */
-.reveal {
-  transition:
-    opacity var(--duration) var(--ease-out),
-    transform var(--duration) var(--ease-out);
-}
-
-/* Only hide content once JS is running, so prerendered HTML is never invisible */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(28px);
-}
-
-.js .reveal--left {
-  transform: translateX(-24px) translateY(12px);
-}
-
-.js .reveal--right {
-  transform: translateX(24px) translateY(12px);
-}
-
-.js .reveal.in-view {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-/* Above-the-fold entrance: pure CSS so it runs before JS hydrates */
-.reveal-on-load {
-  animation: reveal-on-load var(--duration) var(--ease-out) both;
-}
-
-@keyframes reveal-on-load {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .reveal-on-load {
-    animation: none;
-  }
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { font-family: 'Kanit', system-ui, sans-serif; color: #d7e2ea; background: #0c0c0c; color-scheme: dark; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; background: #0c0c0c; }
+body, #root { min-width: 320px; min-height: 100vh; background: #0c0c0c; }
+body { overflow-x: clip; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+img { display: block; max-width: 100%; }
+a:focus-visible { outline: 2px solid #d7e2ea; outline-offset: 4px; }
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 600ms cubic-bezier(.22, 1, .36, 1), transform 600ms cubic-bezier(.22, 1, .36, 1); }
+.reveal--left { transform: translateX(-24px) translateY(12px); }
+.reveal--right { transform: translateX(24px) translateY(12px); }
+.reveal.in-view { opacity: 1; transform: translate(0, 0); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

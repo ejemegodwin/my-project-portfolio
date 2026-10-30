@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { site, projects } from '../data/projects'
+import { useInView } from '../hooks/useInView'
 
 const commands = {
   help: () => [
@@ -44,6 +45,7 @@ const commands = {
 }
 
 export default function DeveloperTerminal() {
+  const [sectionRef, inView] = useInView({ threshold: 0.1 })
   const [history, setHistory] = useState([
     {
       type: 'system',
@@ -121,8 +123,8 @@ export default function DeveloperTerminal() {
   }
 
   return (
-    <section className="terminal section">
-      <div className="section__inner">
+    <section className="terminal section" ref={sectionRef}>
+      <div className={`section__inner reveal ${inView ? 'in-view' : ''}`}>
         <div className="terminal__header">
           <div>
             <p className="section__label">
