@@ -21,9 +21,11 @@ async function github(path) {
 
 export default async () => {
   try {
-    const [profile, [latest], ...featured] = await Promise.all([
+    const [profile, [latest], publicEvents, repositoriesPage, ...featured] = await Promise.all([
       github(`/users/${GITHUB_USERNAME}`),
       github(`/users/${GITHUB_USERNAME}/repos?per_page=1&sort=updated`),
+      github(`/users/${GITHUB_USERNAME}/events/public?per_page=100`).catch(() => []),
+      github(`/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`),
       ...FEATURED_REPOSITORIES.map((fullName) =>
         github(`/repos/${fullName}`).catch((err) => {
           console.error(err)
@@ -45,12 +47,27 @@ export default async () => {
       }
     })
 
+    const publicActivity = {}
+    publicEvents.forEach((event) => {
+      const day = event.created_at?.slice(0, 10)
+      if (day) publicActivity[day] = (publicActivity[day] ?? 0) + 1
+    })
+
+    const languageCounts = {}
+    repositoriesPage.forEach((repo) => {
+      if (repo.language) languageCounts[repo.language] = (languageCounts[repo.language] ?? 0) + 1
+    })
+
     return Response.json(
       {
         public_repos: profile.public_repos,
         followers: profile.followers,
         following: profile.following,
         latest_repository: latest?.name ?? null,
+        public_activity: Object.entries(publicActivity).map(([date, count]) => ({ date, count })),
+        languages: Object.entries(languageCounts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count),
         repositories,
       },
       {

@@ -3,25 +3,31 @@ import { useInView } from '../hooks/useInView'
 const learningGroups = [
   {
     title: 'Strong with',
+    note: 'Used across project work',
     items: [
       'Python',
       'FastAPI',
       'PostgreSQL',
       'SQLAlchemy',
+      'Go',
+      'React',
       'Git',
+      'Pytest',
     ],
   },
   {
     title: 'Currently learning',
+    note: 'Building depth through practice',
     items: [
       'Data Analysis',
       'Advanced SQL',
       'Backend Architecture',
-      'Testing',
+      'Distributed Systems',
     ],
   },
   {
     title: 'Exploring next',
+    note: 'Next areas to apply in projects',
     items: [
       'Pandas',
       'NumPy',
@@ -64,6 +70,7 @@ export default function LearningWall() {
               key={group.title}
             >
               <h3>{group.title}</h3>
+              <p className="learning-wall__note">{group.note}</p>
 
               <div className="learning-wall__items">
                 {group.items.map((item) => (

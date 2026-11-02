@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { projects } from '../data/projects'
 import { useInView } from '../hooks/useInView'
 import ProjectImageGenerator from './ProjectImageGenerator'
 
-const filters = ['All', 'Backend', 'Python', 'Database', 'AI', 'Marketplace', 'Go', 'CLI', 'Product']
+const filters = [
+  'All',
+  ...new Set(projects.flatMap((project) => project.categories)),
+]
 
 const statusLabels = {
   completed: 'Completed',
@@ -15,7 +18,20 @@ const statusLabels = {
 export default function ProjectBrowser({ onGenerated }) {
   const [activeFilter, setActiveFilter] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
+  const [githubData, setGithubData] = useState(null)
   const [ref, inView] = useInView({ threshold: 0.1 })
+
+  useEffect(() => {
+    if (!inView) return
+
+    fetch('/api/github')
+      .then((response) => {
+        if (!response.ok) throw new Error('GitHub request failed')
+        return response.json()
+      })
+      .then(setGithubData)
+      .catch(() => setGithubData({ error: true }))
+  }, [inView])
 
   const featuredProjects = useMemo(() => {
     return projects.filter((project) => project.featured)
@@ -40,6 +56,8 @@ export default function ProjectBrowser({ onGenerated }) {
       return matchesFilter && (!query || searchableText.includes(query))
     })
   }, [activeFilter, searchQuery])
+
+  const hasActiveFilters = activeFilter !== 'All' || searchQuery.trim()
 
   return (
     <section
@@ -72,12 +90,22 @@ export default function ProjectBrowser({ onGenerated }) {
         <div className="project-browser__featured">
           <p className="section__label">Featured</p>
 
+            <p className="project-browser__featured-intro">
+              A closer look at the projects that best represent how I think about systems, products, and reliability.
+            </p>
+
           <div className="project-browser__featured-grid">
             {featuredProjects.map((project) => (
               <article
                 className="project-card project-card--featured"
                 key={project.id}
               >
+                {(() => {
+                  const repoKey = project.repo?.replace('https://github.com/', '')
+                  const repoStats = githubData?.repositories?.[repoKey]
+
+                  return (
+                    <>
                 <div className="project-card__top">
                   <span className="project-card__date">
                     {project.date}
@@ -96,6 +124,16 @@ export default function ProjectBrowser({ onGenerated }) {
                   {project.tagline}
                 </p>
 
+                <p className="project-card__reason">
+                  {project.featuredReason}
+                </p>
+
+                <div className="project-card__categories">
+                  {project.categories.slice(0, 3).map((category) => (
+                    <span key={category}>{category}</span>
+                  ))}
+                </div>
+
                 <div className="project-card__tech">
                   {project.tech.slice(0, 5).map((technology) => (
                     <span key={technology}>{technology}</span>
@@ -113,7 +151,7 @@ export default function ProjectBrowser({ onGenerated }) {
                   </span>
 
                   <div className="project-card__links">
-                    <a href={`#${project.id}`}>Read case study ↓</a>
+                    <a href={`/projects/${project.id}/`}>Read case study ↓</a>
                     {project.repo && (
                       <a
                         href={project.repo}
@@ -125,6 +163,18 @@ export default function ProjectBrowser({ onGenerated }) {
                     )}
                   </div>
                 </div>
+                {repoStats && (
+                  <div className="project-card__stats" aria-label="GitHub repository statistics">
+                    <span>★ {repoStats.stargazers_count}</span>
+                    <span>⑂ {repoStats.forks_count}</span>
+                    {repoStats.pushed_at && (
+                      <span>Updated {new Date(repoStats.pushed_at).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}</span>
+                    )}
+                  </div>
+                )}
+                    </>
+                  )
+                })()}
               </article>
             ))}
           </div>
@@ -154,6 +204,7 @@ export default function ProjectBrowser({ onGenerated }) {
                     ? 'project-browser__filter--active'
                     : ''
                 }`}
+                aria-pressed={activeFilter === filter}
                 onClick={() => setActiveFilter(filter)}
               >
                 {filter}
@@ -166,10 +217,23 @@ export default function ProjectBrowser({ onGenerated }) {
               Showing {filteredProjects.length} result{filteredProjects.length === 1 ? '' : 's'} for “{searchQuery}”.
             </p>
           )}
+
+          {hasActiveFilters && (
+            <button
+              className="project-browser__clear"
+              type="button"
+              onClick={() => {
+                setActiveFilter('All')
+                setSearchQuery('')
+              }}
+            >
+              Clear filters
+            </button>
+          )}
         </div>
 
         <div className="project-browser__list">
-          {filteredProjects.map((project) => (
+          {filteredProjects.length ? filteredProjects.map((project) => (
             <article className="project-card" key={project.id}>
               <div className="project-card__top">
                 <span className="project-card__date">
@@ -207,7 +271,7 @@ export default function ProjectBrowser({ onGenerated }) {
                 </span>
 
                 <div className="project-card__links">
-                  <a href={`#${project.id}`}>Read case study ↓</a>
+                  <a href={`/projects/${project.id}/`}>Read case study ↓</a>
                   {project.repo && (
                     <a
                       href={project.repo}
@@ -220,7 +284,12 @@ export default function ProjectBrowser({ onGenerated }) {
                 </div>
               </div>
             </article>
-          ))}
+          )) : (
+            <div className="project-browser__empty">
+              <strong>No matching projects</strong>
+              <p>Try another technology, category, or clear the filters.</p>
+            </div>
+          )}
         </div>
       </div>
     </section>

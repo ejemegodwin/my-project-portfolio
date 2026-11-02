@@ -108,6 +108,15 @@ export default function GithubActivity() {
     },
   ]
 
+  const activityDays = Array.from({ length: 35 }, (_, index) => {
+    const date = new Date()
+    date.setUTCDate(date.getUTCDate() - (34 - index))
+    const key = date.toISOString().slice(0, 10)
+    const count = data?.public_activity?.find((item) => item.date === key)?.count ?? 0
+    return { date: key, count }
+  })
+  const languages = data?.languages ?? []
+
   return (
     <section className="github-activity section" ref={ref}>
       <div
@@ -132,7 +141,7 @@ export default function GithubActivity() {
                 loading ? 'is-loading' : ''
               } ${error ? 'is-error' : ''}`}
             />
-            <span>
+            <span aria-live="polite">
               {loading
                 ? 'Connecting to GitHub'
                 : error
@@ -168,10 +177,50 @@ export default function GithubActivity() {
           ))}
         </div>
 
+        <div className="github-activity__calendar" aria-label="Recent public GitHub activity">
+          <div className="github-activity__repos-header">
+            <div>
+              <p className="section__label">Recent public activity</p>
+              <h3 className="github-activity__repos-title">A small signal of what&apos;s moving</h3>
+            </div>
+            <span className="github-activity__calendar-note">Last 35 days</span>
+          </div>
+          <div className="github-activity__activity-grid">
+            {activityDays.map((day) => (
+              <span
+                key={day.date}
+                className={`github-activity__activity-cell github-activity__activity-cell--${Math.min(day.count, 3)}`}
+                title={`${day.count} public event${day.count === 1 ? '' : 's'} on ${day.date}`}
+                aria-label={`${day.count} public event${day.count === 1 ? '' : 's'} on ${day.date}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {languages.length > 0 && (
+          <div className="github-activity__languages">
+            <div className="github-activity__repos-header">
+              <div>
+                <p className="section__label">Language mix</p>
+                <h3 className="github-activity__repos-title">Public repositories by primary language</h3>
+              </div>
+              <span className="github-activity__calendar-note">{languages.reduce((sum, language) => sum + language.count, 0)} repositories</span>
+            </div>
+            <div className="github-activity__language-list">
+              {languages.slice(0, 6).map((language) => (
+                <div className="github-activity__language" key={language.name}>
+                  <div><span>{language.name}</span><strong>{language.count}</strong></div>
+                  <span className="github-activity__language-track"><i style={{ width: `${Math.max(8, language.count / languages[0].count * 100)}%` }} /></span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="github-activity__repos">
           <div className="github-activity__repos-header">
             <div>
-              <p className="section__label">Recent repositories</p>
+              <p className="section__label">Featured repositories</p>
 
               <h3 className="github-activity__repos-title">
                 What I've been working on
@@ -187,6 +236,7 @@ export default function GithubActivity() {
                 target="_blank"
                 rel="noreferrer"
                 className="github-activity__repo"
+                aria-label={`Open ${repo.name} on GitHub`}
               >
                 <div className="github-activity__repo-top">
                   <strong>{repo.name}</strong>

@@ -1,25 +1,6 @@
+import { useEffect, useState } from 'react'
 import { useInView } from '../hooks/useInView'
 import { projects } from '../data/projects'
-
-const stats = [
-  {
-    label: 'Current focus',
-    value: 'Backend Engineering',
-  },
-  {
-    label: 'Currently building',
-    value: 'AlgoStrat',
-  },
-  {
-    label: 'Learning',
-    value: 'Python · PostgreSQL · Data Analysis',
-  },
-  {
-    label: 'Projects',
-    // Always matches the number of projects listed on the page
-    value: String(projects.length),
-  },
-]
 
 const technologies = [
   'Python',
@@ -33,6 +14,30 @@ const technologies = [
 
 export default function StatusDashboard() {
   const [ref, inView] = useInView({ threshold: 0.15 })
+  const [githubStatus, setGithubStatus] = useState(null)
+
+  useEffect(() => {
+    if (!inView) return
+
+    fetch('/api/github')
+      .then((response) => {
+        if (!response.ok) throw new Error('GitHub request failed')
+        return response.json()
+      })
+      .then(setGithubStatus)
+      .catch(() => setGithubStatus({ error: true }))
+  }, [inView])
+
+  const stats = [
+    { label: 'Current focus', value: 'Backend Engineering' },
+    { label: 'Currently building', value: 'AlgoStrat' },
+    { label: 'Learning', value: 'Python · PostgreSQL · Data Analysis' },
+    { label: 'Projects', value: String(projects.length) },
+    {
+      label: 'Latest GitHub repo',
+      value: githubStatus?.latest_repository ?? (githubStatus?.error ? 'Unavailable' : 'Connecting…'),
+    },
+  ]
 
   return (
     <section className="status-dashboard section" ref={ref}>
@@ -50,8 +55,8 @@ export default function StatusDashboard() {
           </div>
 
           <div className="status-dashboard__indicator">
-            <span className="status-dashboard__dot" />
-            Active
+            <span className={`status-dashboard__dot ${githubStatus?.error ? 'is-error' : ''}`} />
+            {githubStatus?.error ? 'Local status' : githubStatus ? 'Live GitHub data' : 'Syncing GitHub'}
           </div>
         </div>
 
