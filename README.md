@@ -18,6 +18,12 @@ npm run dev
 
 Open the URL Vite prints (usually `http://localhost:5173`).
 
+## Repository image generator
+
+The project browser includes an experimental generator that reads public GitHub repository metadata, the README, languages, and top-level filenames, then creates a matching portfolio visual through the AI SDK and Vercel AI Gateway.
+
+For deployment, add `AI_GATEWAY_API_KEY` to the Netlify environment variables. Keep it server-side; do not add it to a `VITE_` variable or commit it. An optional `GITHUB_TOKEN` can be added to increase GitHub API limits.
+
 ## Customize
 
 Edit **`src/data/projects.js`**:

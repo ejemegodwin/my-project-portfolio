@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ai-sdk/gateway": "^4.0.132",
+    "ai": "^7.0.159",
     "framer-motion": "^13.3.0",
     "lucide-react": "^1.46.0",
     "react": "^19.2.8",

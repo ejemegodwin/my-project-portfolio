@@ -63,12 +63,20 @@ function HeroSection() {
   )
 }
 
-// Reserved image slots for future generated project visuals.
-const visualTiles = Array(8).fill(null)
+const visualTiles = [
+  { label: 'ledger / consistency', tone: 'ledger' },
+  { label: 'cashflow / overview', tone: 'cashflow' },
+  { label: 'retrieval / context', tone: 'retrieval' },
+  { label: 'systems / in motion', tone: 'systems' },
+  { label: 'api / response', tone: 'api' },
+  { label: 'data / structure', tone: 'data' },
+  { label: 'build / learn / grow', tone: 'grow' },
+  { label: 'ship / iterate', tone: 'ship' },
+]
 
 function MarqueeRow({ images, reverse = false }) {
   const row = [...images, ...images, ...images]
-  return <div className="marquee-row"><motion.div className="marquee-track" animate={{ x: reverse ? ['-33.33%', '0%'] : ['0%', '-33.33%'] }} transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}>{row.map((image, index) => <div className="marquee-tile" key={`${index}`}>{image && <img src={image} alt="Godwin project preview" loading="lazy" />}</div>)}</motion.div></div>
+  return <div className="marquee-row"><motion.div className="marquee-track" animate={{ x: reverse ? ['-33.33%', '0%'] : ['0%', '-33.33%'] }} transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}>{row.map((tile, index) => <div className={`marquee-tile marquee-tile--${tile.tone}`} key={`${tile.label}-${index}`}><span>{tile.label}</span><strong>{String(index % 8 + 1).padStart(2, '0')}</strong></div>)}</motion.div></div>
 }
 
 function MarqueeSection() {
@@ -102,7 +110,7 @@ function ProjectCard({ project, index, total }) {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'start start'] })
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1 - (total - 1 - index) * 0.03])
-  return <div className="project-card-shell" ref={ref} style={{ top: `${index * 28 + 96}px` }}><motion.article className="modern-project-card" style={{ scale }}><div className="project-card-top"><span className="project-large-number">{String(index + 1).padStart(2, '0')}</span><div className="project-card-info"><p className="eyebrow">{project.categories?.join(' / ')}</p><h3>{project.title}</h3><p>{project.tagline}</p></div>{project.repo && <a className="live-project-button" href={project.repo} target="_blank" rel="noreferrer">View project <ArrowUpRight size={17} aria-hidden="true" /></a>}</div><div className="project-card-content"><div className="project-visual project-visual--small" /><div className="project-card-summary"><span>My role</span><p>{project.role}</p><div className="project-tech-list">{project.tech.slice(0, 6).map((technology) => <span key={technology}>{technology}</span>)}</div></div><div className="project-visual project-visual--tall" /></div></motion.article></div>
+  return <div className="project-card-shell" ref={ref} style={{ top: `${index * 28 + 96}px` }}><motion.article className={`modern-project-card modern-project-card--${project.id}`} style={{ scale }}><div className="project-card-top"><span className="project-large-number">{String(index + 1).padStart(2, '0')}</span><div className="project-card-info"><p className="eyebrow">{project.categories?.join(' / ')}</p><h3>{project.title}</h3><p>{project.tagline}</p></div>{project.repo && <a className="live-project-button" href={project.repo} target="_blank" rel="noreferrer">View project <ArrowUpRight size={17} aria-hidden="true" /></a>}</div><div className="project-card-content"><div className="project-visual project-visual--small"><span>01 / input</span><strong>{project.categories?.[0]}</strong></div><div className="project-card-summary"><span>My role</span><p>{project.role}</p><div className="project-tech-list">{project.tech.slice(0, 6).map((technology) => <span key={technology}>{technology}</span>)}</div></div><div className="project-visual project-visual--tall"><span>02 / output</span><strong>{project.status === 'completed' ? 'shipped' : 'in progress'}</strong></div></div></motion.article></div>
 }
 
 function ProjectsSection() {

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { projects } from '../data/projects'
 import { useInView } from '../hooks/useInView'
+import ProjectImageGenerator from './ProjectImageGenerator'
 
 const filters = ['All', 'Backend', 'Python', 'Database', 'AI', 'Go', 'CLI', 'Product']
 
@@ -54,6 +55,8 @@ export default function ProjectBrowser() {
             {filteredProjects.length} projects
           </span>
         </div>
+
+        <ProjectImageGenerator projects={projects} />
 
         <div className="project-browser__featured">
           <p className="section__label">Featured</p>
