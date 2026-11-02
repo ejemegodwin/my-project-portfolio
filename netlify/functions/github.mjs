@@ -1,6 +1,7 @@
 const GITHUB_USERNAME = 'ejemegodwin'
 
 const FEATURED_REPOSITORIES = [
+  'ejemegodwin/AlgoStrat',
   'andrewokala/godand-bank',
   'ejemegodwin/fraudguard',
   'ejemegodwin/focus',

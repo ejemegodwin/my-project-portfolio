@@ -71,6 +71,13 @@ export default function ProjectSection({ project, index }) {
           </article>
         </div>
 
+        {project.architecture && (
+          <article className="project__architecture">
+            <span className="project__eyebrow">Architecture lens</span>
+            <p>{project.architecture}</p>
+          </article>
+        )}
+
         <div className="project__grid">
 
           <article className="project__card">

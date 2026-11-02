@@ -5,6 +5,18 @@
 html { scroll-behavior: smooth; background: #0c0c0c; }
 body, #root { min-width: 320px; min-height: 100vh; background: #0c0c0c; }
 body { overflow-x: clip; }
+html.light-mode { color-scheme: light; background: #f4f1eb; }
+html.light-mode body, html.light-mode #root, html.light-mode .modern-site, html.light-mode .creator-hero, html.light-mode .about-modern, html.light-mode .projects-modern, html.light-mode .modern-contact, html.light-mode .status-dashboard, html.light-mode .about, html.light-mode .project-browser, html.light-mode .journey, html.light-mode .terminal, html.light-mode .github-activity, html.light-mode .learning-wall, html.light-mode .project { color: #17202a; background: #f4f1eb; }
+html.light-mode .services-modern { background: #17202a; }
+html.light-mode .hero-heading { background: linear-gradient(180deg, #17202a 0%, #65717a 100%); -webkit-background-clip: text; background-clip: text; }
+html.light-mode .section__title, html.light-mode .project-card h3, html.light-mode .github-activity__repos-title, html.light-mode .journey__content h3, html.light-mode .project__card h3, html.light-mode .project__title, html.light-mode .hiring-snapshot strong { color: #17202a; }
+html.light-mode .hero-bottomline > p, html.light-mode .project__tagline, html.light-mode .project__description, html.light-mode .about__body, html.light-mode .project-card > p, html.light-mode .project-card__tagline, html.light-mode .project-card__footer, html.light-mode .github-activity__repo p, html.light-mode .github-activity__note p, html.light-mode .journey__content p, html.light-mode .hiring-snapshot p { color: #4d5a63; }
+html.light-mode .status-dashboard__card, html.light-mode .github-activity__card, html.light-mode .project-card, html.light-mode .github-activity__repo, html.light-mode .learning-wall__group, html.light-mode .project__overview-card, html.light-mode .project__card, html.light-mode .terminal__window { border-color: rgba(23,32,42,.16); background: #fff; }
+html.light-mode .terminal__window { background: #17202a; }
+html.light-mode .theme-toggle, html.light-mode .resume-link { color: #17202a; border-color: rgba(23,32,42,.28); }
+html.light-mode .project-browser__search input, html.light-mode .project-image-generator select { color: #17202a; background: #fff; border-color: rgba(23,32,42,.2); }
+html.light-mode .project-browser__filter { color: #4d5a63; border-color: rgba(23,32,42,.18); }
+html.light-mode .project-browser__filter--active, html.light-mode .project-browser__filter:hover { color: #fff; background: #17202a; }
 a { color: inherit; text-decoration: none; }
 button, input { font: inherit; }
 img { display: block; max-width: 100%; }

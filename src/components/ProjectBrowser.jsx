@@ -3,7 +3,7 @@ import { projects } from '../data/projects'
 import { useInView } from '../hooks/useInView'
 import ProjectImageGenerator from './ProjectImageGenerator'
 
-const filters = ['All', 'Backend', 'Python', 'Database', 'AI', 'Go', 'CLI', 'Product']
+const filters = ['All', 'Backend', 'Python', 'Database', 'AI', 'Marketplace', 'Go', 'CLI', 'Product']
 
 const statusLabels = {
   completed: 'Completed',
@@ -12,8 +12,9 @@ const statusLabels = {
   prototype: 'Prototype',
 }
 
-export default function ProjectBrowser() {
+export default function ProjectBrowser({ onGenerated }) {
   const [activeFilter, setActiveFilter] = useState('All')
+  const [searchQuery, setSearchQuery] = useState('')
   const [ref, inView] = useInView({ threshold: 0.1 })
 
   const featuredProjects = useMemo(() => {
@@ -21,14 +22,24 @@ export default function ProjectBrowser() {
   }, [])
 
   const filteredProjects = useMemo(() => {
-    if (activeFilter === 'All') {
-      return projects
-    }
+    const query = searchQuery.trim().toLowerCase()
 
-    return projects.filter((project) =>
-      project.categories.includes(activeFilter)
-    )
-  }, [activeFilter])
+    return projects.filter((project) => {
+      const matchesFilter =
+        activeFilter === 'All' || project.categories.includes(activeFilter)
+      const searchableText = [
+        project.title,
+        project.tagline,
+        project.description,
+        ...project.categories,
+        ...project.tech,
+      ]
+        .join(' ')
+        .toLowerCase()
+
+      return matchesFilter && (!query || searchableText.includes(query))
+    })
+  }, [activeFilter, searchQuery])
 
   return (
     <section
@@ -56,7 +67,7 @@ export default function ProjectBrowser() {
           </span>
         </div>
 
-        <ProjectImageGenerator projects={projects} />
+        <ProjectImageGenerator projects={projects} onGenerated={onGenerated} />
 
         <div className="project-browser__featured">
           <p className="section__label">Featured</p>
@@ -120,7 +131,18 @@ export default function ProjectBrowser() {
         </div>
 
         <div className="project-browser__filters">
-          <p className="section__label">Browse by area</p>
+          <div className="project-browser__filter-header">
+            <p className="section__label">Browse by area</p>
+            <label className="project-browser__search">
+              <span className="sr-only">Search projects</span>
+              <input
+                type="search"
+                placeholder="Search projects"
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+              />
+            </label>
+          </div>
 
           <div className="project-browser__filter-list">
             {filters.map((filter) => (
@@ -138,6 +160,12 @@ export default function ProjectBrowser() {
               </button>
             ))}
           </div>
+
+          {searchQuery && (
+            <p className="project-browser__results">
+              Showing {filteredProjects.length} result{filteredProjects.length === 1 ? '' : 's'} for “{searchQuery}”.
+            </p>
+          )}
         </div>
 
         <div className="project-browser__list">

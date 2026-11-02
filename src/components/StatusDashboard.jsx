@@ -8,7 +8,7 @@ const stats = [
   },
   {
     label: 'Currently building',
-    value: 'godand-bank',
+    value: 'AlgoStrat',
   },
   {
     label: 'Learning',

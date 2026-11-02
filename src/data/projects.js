@@ -1,5 +1,74 @@
 export const projects = [
   {
+    id: 'algostrat',
+    date: '2026-10',
+    title: 'AlgoStrat',
+    tagline:
+      'An international services marketplace built around trust, evidence, and explainable matching',
+
+    description:
+      'AlgoStrat is a marketplace where clients and skilled workers can discover one another, agree on structured work, and move through contracts, milestones, reviews, payments, and disputes. The system treats trust as an engineering problem: acceptance criteria are frozen into contracts, work receipts are cryptographically signed, and matching decisions are explainable instead of being a black box.',
+
+    role:
+      'Backend and product engineer working across authentication, job discovery, hiring transactions, contracts, verification, matching, payments, disputes, and the React marketplace experience.',
+
+    architecture:
+      'React SPA → FastAPI services → SQLAlchemy / PostgreSQL → append-only audit and ledger records. Verification is intentionally public and privacy-preserving, while payment and provider boundaries remain replaceable through adapters.',
+
+    features: [
+      'JWT authentication with Argon2 password hashing and rate limiting',
+      'Job discovery with search, pagination, filters, currencies, and acceptance criteria',
+      'Atomic hiring that closes a job and rejects competing applications safely',
+      'Contracts with immutable criteria snapshots and milestone review workflows',
+      'Append-only audit history for contract and payment events',
+      'Cryptographically signed work receipts with public verification',
+      'Worker levels computed from verified work receipts',
+      'Explainable worker-to-job matching with visible scoring factors',
+      'Double-entry accrual ledger, simulated payouts, and dispute resolution',
+    ],
+
+    whyBuilt:
+      'I wanted to work on a product where backend correctness affects trust directly. A marketplace is more than listings and profiles: it needs clear agreements, evidence of work, safe state transitions, and a fair way to explain decisions to the people using it.',
+
+    hardParts: [
+      'Making hiring atomic so only one applicant can become the accepted worker',
+      'Preserving the exact acceptance criteria a worker agreed to even after a job changes',
+      'Designing receipts that verify work without exposing private client data',
+      'Keeping ledger, contract, milestone, and dispute state consistent across failures',
+      'Making matching explainable enough for users to understand and challenge',
+    ],
+
+    whatClicked:
+      'The strongest systems are often built from records that cannot be quietly rewritten. Immutable criteria, permanent submissions, append-only events, and signed receipts turned a vague idea of trust into concrete database and API behaviour.',
+
+    outcome:
+      'AlgoStrat demonstrates product-level backend thinking across identity, marketplace workflows, contracts, verification, payments, and dispute handling. It also gives me a strong foundation for discussing transactions, auditability, privacy, and failure recovery in technical interviews.',
+
+    doDifferently:
+      'I would introduce a shared event model and more end-to-end tests earlier, especially around payment-provider boundaries and dispute reversals. For production, I would also replace the single-process rate limiter and simulated payment adapter with durable infrastructure and a registered payment provider.',
+
+    tech: [
+      'Python',
+      'FastAPI',
+      'React',
+      'PostgreSQL',
+      'SQLAlchemy',
+      'Alembic',
+      'JWT',
+      'Argon2',
+      'pytest',
+      'Neon',
+    ],
+
+    repo: 'https://github.com/ejemegodwin/AlgoStrat',
+    status: 'in-progress',
+    visibility: 'public',
+    relationship: 'Product architecture & backend',
+    featured: true,
+    categories: ['Marketplace', 'Backend', 'Python'],
+  },
+
+  {
     id: 'godand-bank',
     date: '2026-09',
     title: 'Godand Bank',
@@ -341,7 +410,7 @@ export const site = {
     'I build systems, break them, understand why they broke, and build them better.',
 
   about: [
-    "I'm Ejeme Godwin, a backend and full-stack developer. I build APIs and data-backed systems with Python, FastAPI, and PostgreSQL, and I also work with Go and React. My projects include a transactional banking backend, an AI-powered WhatsApp business assistant, and a cash flow tracker for small businesses. I'm open to backend engineering, full-stack, and data-focused roles.",
+    "I'm Ejeme Godwin, a backend and full-stack developer. I build APIs and data-backed systems with Python, FastAPI, and PostgreSQL, and I also work with Go and React. My projects include a marketplace with contracts and verifiable work receipts, a transactional banking backend, an AI-powered WhatsApp business assistant, and a cash flow tracker for small businesses. I'm open to backend engineering, full-stack, and data-focused roles.",
     'This portfolio is a living record of my development journey. I care about understanding how systems work, documenting the difficult parts, and learning from what breaks.',
     'My current focus is backend engineering with Python, databases, APIs, and increasingly data analysis.',
   ],

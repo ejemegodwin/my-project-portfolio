@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ejeme Godwin — Résumé</title>
+    <style>
+      :root { color: #17202a; background: #f4f1eb; font: 16px/1.55 Arial, sans-serif; }
+      body { max-width: 880px; margin: 0 auto; padding: 48px 28px; background: #fff; }
+      header { display: flex; justify-content: space-between; gap: 24px; border-bottom: 3px solid #17202a; padding-bottom: 22px; }
+      h1, h2, h3, p { margin: 0; }
+      h1 { font-size: 42px; letter-spacing: -.05em; }
+      h2 { margin: 30px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #cbd1d4; font-size: 16px; letter-spacing: .12em; text-transform: uppercase; }
+      h3 { font-size: 18px; }
+      .role { margin-top: 4px; color: #65717a; font-size: 18px; }
+      .contact { text-align: right; color: #65717a; }
+      .contact a { color: inherit; }
+      .summary { margin-top: 22px; font-size: 17px; }
+      .project { margin-top: 18px; }
+      .project-meta { display: flex; justify-content: space-between; gap: 16px; color: #65717a; }
+      .project p { margin-top: 5px; }
+      .skills { display: flex; flex-wrap: wrap; gap: 8px; }
+      .skills span { padding: 5px 9px; border: 1px solid #cbd1d4; border-radius: 999px; }
+      .print { position: fixed; right: 24px; bottom: 24px; padding: 11px 16px; border: 0; border-radius: 999px; color: #fff; background: #17202a; cursor: pointer; }
+      @media print { :root { background: #fff; } body { padding: 0; } .print { display: none; } }
+      @media (max-width: 620px) { header { display: block; } .contact { margin-top: 14px; text-align: left; } .project-meta { display: block; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div><h1>Ejeme Godwin</h1><p class="role">Backend / Full-Stack Developer</p></div>
+      <div class="contact"><a href="mailto:godwinejeme@gmail.com">godwinejeme@gmail.com</a><br /><a href="tel:09161833996">09161833996</a><br /><a href="https://github.com/ejemegodwin">github.com/ejemegodwin</a></div>
+    </header>
+    <p class="summary">Backend and full-stack developer building reliable APIs, data-backed systems, transaction workflows, and practical digital products with Python, FastAPI, PostgreSQL, Go, and React.</p>
+    <h2>Selected work</h2>
+    <article class="project"><div class="project-meta"><h3>AlgoStrat</h3><span>Marketplace · Backend</span></div><p>International services marketplace with authentication, structured jobs, atomic hiring, milestone contracts, explainable matching, signed work receipts, ledgers, payments, and dispute workflows.</p></article>
+    <article class="project"><div class="project-meta"><h3>Godand Bank</h3><span>Backend · Finance</span></div><p>FastAPI and PostgreSQL banking backend focused on transfers, ledger records, idempotency, audit logging, pagination, and concurrency protection.</p></article>
+    <article class="project"><div class="project-meta"><h3>AskDuka</h3><span>AI · Backend · Team project</span></div><p>AI-powered WhatsApp business assistant with PostgreSQL document ingestion, chunking, embeddings, semantic retrieval, and business-level data isolation.</p></article>
+    <article class="project"><div class="project-meta"><h3>Focus</h3><span>Full-stack · Education</span></div><p>Interactive programming learning platform with Python and Go execution tracing, guided exercises, authentication, progress tracking, and an administrative dashboard.</p></article>
+    <h2>Technical toolkit</h2>
+    <div class="skills"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span><span>SQLAlchemy</span><span>Alembic</span><span>Go</span><span>React</span><span>JavaScript</span><span>REST APIs</span><span>pytest</span><span>Git</span><span>Data analysis</span></div>
+    <button class="print" type="button" onclick="window.print()">Print / save PDF</button>
+  </body>
+</html>

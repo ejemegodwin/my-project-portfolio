@@ -4,6 +4,15 @@ import { useInView } from '../hooks/useInView'
 
 const FEATURED_REPOSITORIES = [
   {
+    name: 'AlgoStrat',
+    owner: 'ejemegodwin',
+    title: 'AlgoStrat',
+    url: 'https://github.com/ejemegodwin/AlgoStrat',
+    description:
+      'International services marketplace with contracts, milestone payments, signed work receipts, explainable matching, and dispute workflows.',
+    language: 'Python',
+  },
+  {
     name: 'godand-bank',
     owner: 'andrewokala',
     title: 'Godand Bank',
