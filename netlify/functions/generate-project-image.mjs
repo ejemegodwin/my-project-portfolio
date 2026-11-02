@@ -1,5 +1,3 @@
-import { createGateway, generateImage } from 'ai'
-
 const MAX_README_LENGTH = 6000
 const MAX_FILES = 40
 
@@ -41,9 +39,9 @@ export default async (request) => {
     return Response.json({ error: 'Use POST.' }, { status: 405 })
   }
 
-  if (!process.env.AI_GATEWAY_API_KEY && !process.env.VERCEL_OIDC_TOKEN) {
+  if (!process.env.STABILITY_API_KEY) {
     return Response.json(
-      { error: 'Image generation is not configured yet. Add AI_GATEWAY_API_KEY to Netlify.' },
+      { error: 'Image generation is not configured yet. Add STABILITY_API_KEY to Netlify.' },
       { status: 503 },
     )
   }
@@ -79,22 +77,45 @@ README context: ${readme || 'Not available'}
 
 The image should communicate the project's actual technical character, not depict a generic laptop or stock office scene. Use an abstract systems/product-design composition: layered data structures, clean interface fragments, service diagrams, flows, or carefully chosen domain symbols that fit the repository. Use a dark editorial palette with graphite, cool blue, muted violet, and one restrained mint accent. No people, no logos, no brand names, no readable text, no watermarks. Square composition, strong contrast, premium portfolio art direction.`
 
-    const gateway = createGateway({
-      apiKey: process.env.AI_GATEWAY_API_KEY,
+    const form = new FormData()
+    form.set('prompt', prompt)
+    form.set('output_format', 'png')
+    form.set('aspect_ratio', '16:9')
+
+    const response = await fetch('https://api.stability.ai/v2beta/stable-image/generate/core', {
+      method: 'POST',
+      headers: {
+        Accept: 'image/*',
+        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+      },
+      body: form,
     })
-    const { image } = await generateImage({
-      model: gateway('openai/gpt-image-1-mini'),
-      prompt,
-      size: '1024x1024',
-    })
+    if (!response.ok) {
+      let details = ''
+      try {
+        const errorBody = await response.json()
+        details = Array.isArray(errorBody.errors) ? errorBody.errors.join(' ') : ''
+      } catch {
+        details = await response.text()
+      }
+      const error = new Error(`Stability AI request failed: ${response.status} ${details}`)
+      error.status = response.status
+      throw error
+    }
+
+    const imageBytes = Buffer.from(await response.arrayBuffer())
 
     return Response.json({
       repo: fullName,
-      image: `data:${image.mediaType};base64,${image.base64}`,
+      image: `data:image/png;base64,${imageBytes.toString('base64')}`,
       description: repository.description,
     })
   } catch (error) {
     console.error('Project image generation failed:', error)
+    if (error?.status === 401) return Response.json({ error: 'The Stability AI key is invalid. Update STABILITY_API_KEY in .env or Netlify.' }, { status: 401 })
+    if (error?.status === 402) return Response.json({ error: 'The Stability AI account has no credits remaining.' }, { status: 402 })
+    if (error?.status === 403) return Response.json({ error: 'Stability AI rejected this prompt during content moderation.' }, { status: 403 })
+    if (error?.status === 429) return Response.json({ error: 'Stability AI rate limit reached. Try again shortly.' }, { status: 429 })
     return Response.json({ error: 'Could not inspect the repository or generate its image.' }, { status: 502 })
   }
 }

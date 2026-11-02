@@ -1,6 +1,8 @@
 import { site } from '../data/projects'
 import { useInView } from '../hooks/useInView'
 
+const whatsappUrl = 'https://wa.me/2349155742334?text=Hello%2C%20I%20visited%20your%20portfolio%20and%20I%20have%20a%20project%20I%27d%20like%20to%20discuss.%20Are%20you%20available%3F'
+
 export default function Contact() {
   const [ref, inView] = useInView({ threshold: 0.15 })
 
@@ -44,6 +46,15 @@ export default function Contact() {
               className="btn btn--ghost"
             >
               View GitHub
+            </a>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn--ghost"
+            >
+              WhatsApp
             </a>
           </div>
         </div>

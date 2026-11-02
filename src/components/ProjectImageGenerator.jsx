@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowUpRight, Sparkles } from 'lucide-react'
 
-export default function ProjectImageGenerator({ projects }) {
+export default function ProjectImageGenerator({ projects, onGenerated }) {
   const [selectedRepo, setSelectedRepo] = useState(projects[0]?.repo ?? '')
   const [image, setImage] = useState(null)
   const [error, setError] = useState('')
@@ -19,9 +19,17 @@ export default function ProjectImageGenerator({ projects }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ repo: selectedRepo }),
       })
-      const result = await response.json()
-      if (!response.ok) throw new Error(result.error || 'Generation failed.')
+      const rawResponse = await response.text()
+      let result
+      try {
+        result = rawResponse ? JSON.parse(rawResponse) : {}
+      } catch {
+        throw new Error(`Generator returned an invalid response (${response.status}). Redeploy the latest Netlify version and try again.`)
+      }
+      if (!response.ok) throw new Error(result.error || `Generation failed (${response.status}).`)
+      if (!result.image) throw new Error('The generator did not return an image. Check the Netlify function logs.')
       setImage(result)
+      onGenerated?.(result)
     } catch (generationError) {
       setError(generationError.message)
     } finally {
