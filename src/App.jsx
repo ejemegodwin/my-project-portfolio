@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useAnimation, useScroll, useTransform } from 'framer-motion'
 import { ArrowUpRight, Copy, Mail, Menu, Moon, Phone, Sun, X } from 'lucide-react'
 import { projects, site } from './data/projects'
-import portrait from './assets/Focus.png'
 import StatusDashboard from './components/StatusDashboard'
 import ProjectBrowser from './components/ProjectBrowser'
 import Journey from './components/Journey'
@@ -11,6 +10,10 @@ import GithubActivity from './components/GithubActivity'
 import LearningWall from './components/LearningWall'
 import ProjectSection from './components/ProjectSection'
 import './App.css'
+
+// Served from /public so the prerendered HTML and the browser use the same URL.
+// Netlify Image CDN resizes the large original photo into a light WebP.
+const portrait = '/.netlify/images?url=/Focus.png&w=940&h=940&fit=cover&fm=webp&q=80'
 
 const ease = [0.25, 0.1, 0.25, 1]
 const whatsappUrl = 'https://wa.me/2349155742334?text=Hello%20Focus%2C%20I%20visited%20your%20portfolio%20and%20I%20have%20a%20project%20I%27d%20like%20to%20discuss.%20Are%20you%20available%3F'
